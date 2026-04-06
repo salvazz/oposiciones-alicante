@@ -1,0 +1,7 @@
+BOE_API:
+  url: "https://api.boe.com"
+DOGV_URL: "https://dogv.gva.es"
+timeout:
+  request: 30
+  connection: 10
+user_agent: "MyApp/1.0 (compatible; Acme Inc.)"
