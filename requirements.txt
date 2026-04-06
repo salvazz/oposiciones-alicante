@@ -1,0 +1,8 @@
+requests
+requests-cache
+beautifulsoup4
+lxml
+jinja2
+pytest
+bleach
+PyYAML
