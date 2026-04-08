@@ -9,23 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --primary-gradient: linear-gradient(135deg, #2e3141 0%, #4a4f65 100%);
+            --secondary-gradient: linear-gradient(135deg, #2e3141 0%, #5a5f75 100%);
             --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             --info-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --dark-gradient: linear-gradient(135deg, #2e3141 0%, #4a4f65 100%);
         }
 
         :root {
-            --bg-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --bg-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            --card-light: white;
-            --card-dark: #34495e;
-            --text-light: #2c3e50;
-            --text-dark: #ecf0f1;
-            --border-light: #e9ecef;
-            --border-dark: #495057;
+            --bg-light: linear-gradient(135deg, #2e3141 0%, #4a4f65 100%);
+            --bg-dark: linear-gradient(135deg, #1a1e2a 0%, #2e3141 100%);
+            --card-light: #3a3f55;
+            --card-dark: #1a1e2a;
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --border-light: rgba(255, 255, 255, 0.125);
+            --border-dark: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -61,8 +61,8 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: solid 2px rgba(255, 255, 255, 0.125);
             border-radius: 50px;
             width: 50px;
             height: 50px;
@@ -72,19 +72,22 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: #ffffff;
         }
 
         .dark-mode .theme-toggle {
-            background: rgba(52, 73, 94, 0.9);
-            color: #ecf0f1;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
 
         .custom-municipality {
-            background: white;
+            background: var(--card-light);
             border-radius: 15px;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: solid 2px rgba(255, 255, 255, 0.125);
         }
 
         .dark-mode .custom-municipality {
@@ -118,21 +121,21 @@
         }
 
         .stats-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            border: none;
+            border: solid 2px rgba(255, 255, 255, 0.125);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .job-card {
-            background: white;
+            background: var(--card-light);
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: none;
+            border: solid 2px rgba(255, 255, 255, 0.125);
             margin-bottom: 1.5rem;
             overflow: hidden;
         }
@@ -173,7 +176,7 @@
         .job-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #2c3e50;
+            color: #ffffff;
             margin-bottom: 0.75rem;
             line-height: 1.4;
         }
@@ -194,8 +197,8 @@
         }
 
         .btn-custom {
-            background: var(--primary-gradient);
-            border: none;
+            background: rgba(255, 255, 255, 0.025);
+            border: solid 2px rgba(255, 255, 255, 0.125);
             border-radius: 25px;
             padding: 0.75rem 1.5rem;
             font-weight: 600;
@@ -203,17 +206,18 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            color: #ffffff;
         }
 
         .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            color: white;
+            background: rgba(255, 255, 255, 0.075);
+            border-color: rgba(255, 255, 255, 0.35);
+            color: #ffffff;
         }
 
         .btn-outline-custom {
-            border: 2px solid #667eea;
-            color: #667eea;
+            border: solid 2px rgba(255, 255, 255, 0.125);
+            color: #ffffff;
             background: transparent;
             border-radius: 25px;
             padding: 0.75rem 1.5rem;
@@ -225,9 +229,9 @@
         }
 
         .btn-outline-custom:hover {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
+            background: rgba(255, 255, 255, 0.025);
+            border-color: rgba(255, 255, 255, 0.35);
+            color: #ffffff;
         }
 
         .search-container {
@@ -245,8 +249,8 @@
         }
 
         .search-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #178582;
+            box-shadow: 0 0 0 0.2rem rgba(23, 133, 130, 0.25);
         }
 
         .search-icon {
@@ -266,22 +270,22 @@
         }
 
         .filter-btn {
-            background: white;
-            border: 2px solid #e9ecef;
+            background: var(--card-light);
+            border: solid 2px rgba(255, 255, 255, 0.125);
             border-radius: 25px;
             padding: 0.5rem 1rem;
             font-size: 0.875rem;
             font-weight: 600;
-            color: #6c757d;
+            color: #ffffff;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .filter-btn:hover,
         .filter-btn.active {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
+            background: rgba(255, 255, 255, 0.025);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.35);
         }
 
         .category-administracion { background: var(--success-gradient); }
@@ -290,9 +294,10 @@
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            background: white;
+            background: var(--card-light);
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: solid 2px rgba(255, 255, 255, 0.125);
         }
 
         .empty-state-icon {
@@ -302,11 +307,16 @@
         }
 
         .info-section {
-            background: white;
+            background: var(--card-light);
             border-radius: 15px;
             padding: 2rem;
             margin-top: 3rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: solid 2px rgba(255, 255, 255, 0.125);
+        }
+
+        .info-section h4 {
+            color: #BFA181 !important;
         }
 
         @media (max-width: 768px) {
@@ -827,22 +837,8 @@
             });
         });
 
-        // Auto-refresh every 15 minutes (increased from 10)
-        setTimeout(() => {
-            window.location.reload();
-        }, 900000);
-
-        // Check for new jobs (simulate)
-        function checkForNewJobs() {
-            // This would normally check an API endpoint
-            // For now, we'll just show the banner occasionally
-            if (Math.random() < 0.05) { // 5% chance, reduced frequency
-                document.getElementById('notificationBanner').style.display = 'block';
-            }
-        }
-
-        // Check for new jobs every 60 seconds (reduced frequency)
-        setInterval(checkForNewJobs, 60000);
+        // Removed auto-refresh and random notifications for better UX
+        // Users can manually refresh the page when needed
     </script>
 </body>
 </html>

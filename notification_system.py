@@ -4,6 +4,7 @@ from email.mime.multipart import MIMEMultipart
 import json
 import os
 from datetime import datetime
+import bleach
 try:
     from dotenv import load_dotenv
 except ImportError:
@@ -15,7 +16,7 @@ except ImportError:
 load_dotenv()
 
 class JobNotificationSystem:
-    def __init__(self):
+    def __init__(self, config=None):
         # Configuración de email - usar variables de entorno para seguridad
         self.smtp_server = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
         self.smtp_port = int(os.getenv('SMTP_PORT', '587'))
@@ -25,6 +26,14 @@ class JobNotificationSystem:
         # Recipients desde variable de entorno
         recipient_str = os.getenv('RECIPIENT_EMAILS', 'salvazz@gmail.com,lucasaliagadelaencarnacion@gmail.com')
         self.recipient_emails = [email.strip() for email in recipient_str.split(',')]
+
+        # Use config if provided
+        if config:
+            self.smtp_server = config.SMTP_SERVER
+            self.smtp_port = config.SMTP_PORT
+            self.sender_email = config.SENDER_EMAIL
+            self.sender_password = config.SENDER_PASSWORD
+            self.recipient_emails = config.RECIPIENT_EMAILS
 
         # Archivo para tracking de notificaciones enviadas
         self.tracking_file = 'sent_notifications.json'
@@ -64,6 +73,9 @@ class JobNotificationSystem:
 
     def create_notification_email(self, new_jobs):
         """Crear el contenido del email de notificación con bases completas"""
+        if not new_jobs or not isinstance(new_jobs, list):
+            raise ValueError("Invalid jobs data")
+
         subject = "🔔 Nuevas ofertas de empleo público en Alicante - {}".format(len(new_jobs))
 
         # Crear mensaje HTML simple pero efectivo
@@ -91,11 +103,17 @@ class JobNotificationSystem:
 
             html_content += "<p>"
 
-            if job.get('url_html'):
-                html_content += f'<a href="{job['url_html']}" style="background:#28a745;color:white;padding:8px 12px;text-decoration:none;margin:5px;display:inline-block;">Ver convocatoria</a>'
+            # Only show direct links if they are specific to the job, not general portals
+            if job.get('url_html') and not job['url_html'].endswith('/') and not job['url_html'].endswith('.es') and not job['url_html'].endswith('.org'):
+                html_content += f'<a href="{job['url_html']}" style="background:#28a745;color:white;padding:8px 12px;text-decoration:none;margin:5px;display:inline-block;">Ver oferta completa</a>'
 
             if job.get('url_pdf'):
                 html_content += f'<a href="{job['url_pdf']}" style="background:#6c757d;color:white;padding:8px 12px;text-decoration:none;margin:5px;display:inline-block;">PDF oficial</a>'
+
+            # Always include link to the source portal
+            fuente_url = self.get_fuente_url(job['fuente'])
+            if fuente_url:
+                html_content += f'<a href="{fuente_url}" style="background:#17a2b8;color:white;padding:8px 12px;text-decoration:none;margin:5px;display:inline-block;">Visitar portal fuente</a>'
 
             html_content += "</p></div>"
 
@@ -112,6 +130,35 @@ class JobNotificationSystem:
         """
 
         return subject, html_content
+
+    def get_fuente_url(self, fuente):
+        """Get the main URL for a fuente"""
+        url_map = {
+            'BOE - Estado Español': 'https://www.boe.es',
+            'DOGV - Generalitat Valenciana': 'https://dogv.gva.es',
+            'Diputación de Alicante': 'https://www.dip-alicante.es',
+            'Unión Europea - EUR-Lex': 'https://eur-lex.europa.eu',
+            'Unión Europea - EPSO': 'https://epso.europa.eu/es'
+        }
+
+        # For municipalities, extract the URL from the fuente name
+        if 'Ayuntamiento de' in fuente:
+            municipio = fuente.replace('Ayuntamiento de ', '')
+            municipio_urls = {
+                'Alicante/Alacant': 'https://www.alicante.es',
+                'Elche/Elx': 'https://www.elche.es',
+                'Torrevieja': 'https://www.torrevieja.es',
+                'Orihuela': 'https://www.orihuela.es',
+                'Benidorm': 'https://www.benidorm.org',
+                'Alcoy/Alcoi': 'https://www.alcoi.org',
+                'Villena': 'https://www.villena.es',
+                'Elda': 'https://www.elda.es',
+                'San Vicente del Raspeig': 'https://www.sanvicente.es',
+                'Aspe': 'https://www.aspe.es'
+            }
+            return municipio_urls.get(municipio, None)
+
+        return url_map.get(fuente, None)
 
     def send_notification(self, new_jobs):
         """Enviar notificación por email"""
@@ -159,6 +206,10 @@ class JobNotificationSystem:
         new_jobs = []
 
         for job in current_jobs:
+            # Skip portal/general website listings - only notify for specific job offers
+            if 'Portal de empleo' in job['titulo'] or 'Web municipal' in job['titulo'] or 'Sistema' in job['titulo']:
+                continue
+
             # Crear ID único para el job
             job_id = "{}_{}_{}".format(
                 job.get('identificador', job['titulo'][:50].replace(' ', '_')),

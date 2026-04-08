@@ -3,6 +3,15 @@ import json
 from datetime import datetime, timedelta
 import re
 from bs4 import BeautifulSoup
+import requests_cache
+import logging
+
+# Configure caching and logging
+requests_cache.install_cache('jobs_cache', expire_after=3600)  # 1 hour cache
+logger = logging.getLogger(__name__)
+
+# Default config
+DEFAULT_TIMEOUT = 10
 
 # Constants
 BOE_BASE_URL = 'https://www.boe.es'
@@ -48,15 +57,23 @@ def search_boe_jobs():
 
         try:
             url = f"{API_BASE_URL}/boe/sumario/{date_str}"
-            response = requests.get(url, headers=headers, timeout=10)
+            response = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT)
 
             if response.status_code == 200:
                 data = response.json()
                 daily_jobs = extract_jobs_from_boe(data, date_str, 'BOE - Estado Español')
                 jobs.extend(daily_jobs)
+            else:
+                logger.warning(f"BOE API returned status {response.status_code} for date {date_str}")
 
+        except requests.RequestException as e:
+            logger.error(f"Network error fetching BOE for {date_str}: {e}")
+            continue
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON decode error for BOE {date_str}: {e}")
+            continue
         except Exception as e:
-            print("Error fetching BOE for {}: {}".format(date_str, str(e)))
+            logger.error(f"Unexpected error fetching BOE for {date_str}: {e}")
             continue
 
     return jobs
@@ -71,7 +88,7 @@ def search_dogv_jobs():
 
         # Intentar acceder a la API del DOGV si existe
         url = f"{DOGV_BASE_URL}/api/v1/diario"
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=DEFAULT_TIMEOUT)
 
         if response.status_code == 200:
             data = response.json()
@@ -111,7 +128,7 @@ def search_diputacion_jobs():
     try:
         # Intentar acceder al portal de empleo de la Diputación
         url = f"{DIPUTACION_ALICANTE_URL}/empleo"
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=DEFAULT_TIMEOUT)
 
         if response.status_code == 200:
             # Extraer ofertas de empleo del HTML
@@ -234,7 +251,7 @@ def search_ue_jobs():
             'lang': 'es'
         }
 
-        response = requests.get(url, params=params, timeout=10)
+        response = requests.get(url, params=params, timeout=DEFAULT_TIMEOUT)
 
         if response.status_code == 200:
             jobs.append({
@@ -309,45 +326,45 @@ def extract_jobs_from_boe(data, date_str, fuente):
                                     if isinstance(item, dict):
                                         titulo = item.get('titulo', '').lower()
 
-                                # Filter for Alicante and public jobs (administration and communication)
-                                alicante_found = ('alicante' in titulo or 'alacant' in titulo)
-                                admin_communication_found = (
-                                    'auxiliar' in titulo or 'administrativo' in titulo or
-                                    'funcionario' in titulo or 'oposicion' in titulo or
-                                    'tecnico superior comunicacion' in titulo or 'tecnico comunicacion' in titulo or
-                                    'periodista' in titulo or 'redactor gabinete prensa' in titulo or 'redactor prensa' in titulo or
-                                    'coordinador comunicacion' in titulo or 'coordinadora comunicacion' in titulo or
-                                    'community manager' in titulo or 'responsable redes sociales' in titulo or
-                                    'analista medios' in titulo or 'analista comunicacion' in titulo or
-                                    'asesor prensa' in titulo or 'asesor comunicacion' in titulo or
-                                    'gestion crisis' in titulo or 'produccion contenidos' in titulo or
-                                    'relaciones informativas' in titulo or 'comunicacion institucional' in titulo
-                                )
+                                        # Filter for Alicante and public jobs (administration and communication)
+                                        if titulo:  # Ensure titulo is not empty
+                                            alicante_found = ('alicante' in titulo or 'alacant' in titulo)
+                                            admin_communication_found = (
+                                                'auxiliar' in titulo or 'administrativo' in titulo or
+                                                'funcionario' in titulo or 'oposicion' in titulo or
+                                                'tecnico superior comunicacion' in titulo or 'tecnico comunicacion' in titulo or
+                                                'periodista' in titulo or 'redactor gabinete prensa' in titulo or 'redactor prensa' in titulo or
+                                                'coordinador comunicacion' in titulo or 'coordinadora comunicacion' in titulo or
+                                                'community manager' in titulo or 'responsable redes sociales' in titulo or
+                                                'analista medios' in titulo or 'analista comunicacion' in titulo or
+                                                'asesor prensa' in titulo or 'asesor comunicacion' in titulo or
+                                                'gestion crisis' in titulo or 'produccion contenidos' in titulo or
+                                                'relaciones informativas' in titulo or 'comunicacion institucional' in titulo
+                                            )
 
-                                if alicante_found and admin_communication_found:
+                                            if alicante_found and admin_communication_found:
+                                                # Determinar categoría basada en el contenido
+                                                categoria = 'Administración del Estado'
+                                                if any(term in titulo for term in [
+                                                    'comunicacion', 'periodista', 'redactor', 'coordinador comunicacion',
+                                                    'community manager', 'redes sociales', 'analista medios',
+                                                    'asesor prensa', 'gestion crisis', 'produccion contenidos',
+                                                    'relaciones informativas', 'comunicacion institucional'
+                                                ]):
+                                                    categoria = 'Comunicación'
 
-                                             # Determinar categoría basada en el contenido
-                                             categoria = 'Administración del Estado'
-                                             if any(term in titulo for term in [
-                                                 'comunicacion', 'periodista', 'redactor', 'coordinador comunicacion',
-                                                 'community manager', 'redes sociales', 'analista medios',
-                                                 'asesor prensa', 'gestion crisis', 'produccion contenidos',
-                                                 'relaciones informativas', 'comunicacion institucional'
-                                             ]):
-                                                 categoria = 'Comunicación'
-
-                                             job = {
-                                                 'titulo': item.get('titulo'),
-                                                 'fecha_publicacion': date_str,
-                                                 'fuente': fuente,
-                                                 'tipo': 'Oposición/Concurso',
-                                                 'url_html': item.get('url_html'),
-                                                 'url_pdf': item.get('url_pdf', {}).get('texto') if isinstance(item.get('url_pdf'), dict) else item.get('url_pdf'),
-                                                 'plazo_abierto': check_plazo_abierto(item),
-                                                 'categoria': categoria,
-                                                 'identificador': item.get('identificador')
-                                             }
-                                             jobs.append(job)
+                                                job = {
+                                                    'titulo': item.get('titulo'),
+                                                    'fecha_publicacion': date_str,
+                                                    'fuente': fuente,
+                                                    'tipo': 'Oposición/Concurso',
+                                                    'url_html': item.get('url_html'),
+                                                    'url_pdf': item.get('url_pdf', {}).get('texto') if isinstance(item.get('url_pdf'), dict) else item.get('url_pdf'),
+                                                    'plazo_abierto': check_plazo_abierto(item),
+                                                    'categoria': categoria,
+                                                    'identificador': item.get('identificador')
+                                                }
+                                                jobs.append(job)
 
     return jobs
 
