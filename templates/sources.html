@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuentes de Datos - Empleo Público Alicante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --info-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero-section {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .source-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: none;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .source-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .source-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .source-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .source-boe { background: var(--success-gradient); }
+        .source-dogv { background: var(--warning-gradient); }
+        .source-diputacion { background: var(--info-gradient); }
+        .source-ayuntamiento { background: var(--secondary-gradient); }
+        .source-ue { background: var(--dark-gradient); }
+
+        .source-content {
+            padding: 2rem;
+        }
+
+        .source-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .source-description {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .source-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .source-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .source-features li:last-child {
+            border-bottom: none;
+        }
+
+        .source-features i {
+            color: #28a745;
+            margin-right: 0.5rem;
+            width: 16px;
+        }
+
+        .btn-custom {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-developing {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-briefcase me-2"></i>Empleo Público Alicante
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/sources">Fuentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Acerca de</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-database me-3"></i>Fuentes de Datos
+                    </h1>
+                    <p class="lead">
+                        Todas las fuentes oficiales de empleo público que monitorizamos
+                        para mantenerte informado sobre las oportunidades en Alicante
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- BOE - Estado Español -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon source-boe">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">BOE - Estado Español</h5>
+                            <small>Boletín Oficial del Estado</small>
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h6 class="source-title">Administración General del Estado</h6>
+                        <p class="source-description">
+                            Publicaciones oficiales del Gobierno de España, incluyendo oposiciones,
+                            concursos y ofertas de empleo público a nivel nacional.
+                        </p>
+                        <ul class="source-features">
+                            <li><i class="fas fa-check"></i>Oposiciones y concursos</li>
+                            <li><i class="fas fa-check"></i>Convocatorias estatales</li>
+                            <li><i class="fas fa-check"></i>Nombramientos y ceses</li>
+                            <li><i class="fas fa-check"></i>Resoluciones administrativas</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="status-badge status-active">Activo</span>
+                            <a href="https://www.boe.es" target="_blank" class="btn-custom btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>Visitar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOGV - Generalitat Valenciana -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon source-dogv">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">DOGV - Generalitat</h5>
+                            <small>Diario Oficial de la Generalitat Valenciana</small>
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h6 class="source-title">Comunidad Autónoma Valenciana</h6>
+                        <p class="source-description">
+                            Publicaciones oficiales de la Generalitat Valenciana, incluyendo
+                            oposiciones autonómicas y ofertas de empleo público regional.
+                        </p>
+                        <ul class="source-features">
+                            <li><i class="fas fa-check"></i>Oposiciones autonómicas</li>
+                            <li><i class="fas fa-check"></i>Convocatorias sanitarias</li>
+                            <li><i class="fas fa-check"></i>Educación y formación</li>
+                            <li><i class="fas fa-cog"></i>En desarrollo completo</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="status-badge status-developing">En desarrollo</span>
+                            <a href="https://dogv.gva.es" target="_blank" class="btn-custom btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>Visitar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diputación de Alicante -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon source-diputacion">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Diputación Alicante</h5>
+                            <small>Corporación Provincial</small>
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h6 class="source-title">Administración Provincial</h6>
+                        <p class="source-description">
+                            Ofertas de empleo público de la Diputación Provincial de Alicante,
+                            incluyendo plazas administrativas y técnicas a nivel provincial.
+                        </p>
+                        <ul class="source-features">
+                            <li><i class="fas fa-check"></i>Plazas administrativas</li>
+                            <li><i class="fas fa-check"></i>Personal técnico</li>
+                            <li><i class="fas fa-check"></i>Servicios provinciales</li>
+                            <li><i class="fas fa-check"></i>Convocatorias específicas</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="status-badge status-active">Activo</span>
+                            <a href="https://www.dip-alicante.es/empleo" target="_blank" class="btn-custom btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>Visitar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ayuntamientos -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon source-ayuntamiento">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Ayuntamientos</h5>
+                            <small>Municipios de Alicante</small>
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h6 class="source-title">Administración Local</h6>
+                        <p class="source-description">
+                            Ofertas de empleo público de los principales ayuntamientos de la
+                            provincia de Alicante: Alicante, Elche, Torrevieja, Orihuela, etc.
+                        </p>
+                        <ul class="source-features">
+                            <li><i class="fas fa-check"></i>10 municipios principales</li>
+                            <li><i class="fas fa-check"></i>Plazas municipales</li>
+                            <li><i class="fas fa-check"></i>Portales de empleo</li>
+                            <li><i class="fas fa-check"></i>Oposiciones locales</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="status-badge status-active">Activo</span>
+                            <a href="#ayuntamientos-list" class="btn-custom btn-sm">
+                                <i class="fas fa-list me-1"></i>Ver lista
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unión Europea -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon source-ue">
+                            <i class="fas fa-globe-europe"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Unión Europea</h5>
+                            <small>EPSO y EUR-Lex</small>
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h6 class="source-title">Instituciones Europeas</h6>
+                        <p class="source-description">
+                            Concursos y oposiciones de las instituciones de la Unión Europea,
+                            incluyendo EPSO (European Personnel Selection Office).
+                        </p>
+                        <ul class="source-features">
+                            <li><i class="fas fa-check"></i>Concursos EPSO</li>
+                            <li><i class="fas fa-check"></i>Instituciones europeas</li>
+                            <li><i class="fas fa-check"></i>Plazas comunitarias</li>
+                            <li><i class="fas fa-check"></i>Oportunidades internacionales</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="status-badge status-active">Activo</span>
+                            <a href="https://epso.europa.eu/es" target="_blank" class="btn-custom btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>EPSO
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información general -->
+            <div class="col-12">
+                <div class="source-card">
+                    <div class="source-content">
+                        <h4 class="text-primary mb-4">
+                            <i class="fas fa-info-circle me-2"></i>¿Cómo funciona la monitorización?
+                        </h4>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">
+                                    <i class="fas fa-clock me-2"></i>Actualización automática
+                                </h6>
+                                <p>
+                                    El sistema revisa todas las fuentes diariamente para detectar
+                                    nuevas publicaciones de empleo público en la provincia de Alicante.
+                                </p>
+
+                                <h6 class="text-primary mt-3">
+                                    <i class="fas fa-bell me-2"></i>Notificaciones por email
+                                </h6>
+                                <p>
+                                    Cuando se detectan nuevas ofertas, se envían automáticamente
+                                    alertas por email a las direcciones configuradas.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">
+                                    <i class="fas fa-shield-alt me-2"></i>Información oficial
+                                </h6>
+                                <p>
+                                    Toda la información proviene directamente de las fuentes oficiales.
+                                    Los enlaces te llevan a la documentación original y actualizada.
+                                </p>
+
+                                <h6 class="text-primary mt-3">
+                                    <i class="fas fa-search me-2"></i>Filtros inteligentes
+                                </h6>
+                                <p>
+                                    Solo se muestran ofertas con plazo de presentación abierto,
+                                    facilitando encontrar oportunidades realmente disponibles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Ayuntamientos -->
+        <div id="ayuntamientos-list" class="source-card">
+            <div class="source-content">
+                <h4 class="text-primary mb-4">
+                    <i class="fas fa-city me-2"></i>Ayuntamientos Monitorizados
+                </h4>
+                <p class="mb-4">
+                    Monitorizamos los portales de empleo de los siguientes ayuntamientos de la provincia de Alicante:
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Alicante/Alacant</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Elche/Elx</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Torrevieja</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Orihuela</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Benidorm</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Alcoy/Alcoi</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Villena</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Elda</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>San Vicente del Raspeig</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i>Aspe</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Nota:</strong> La lista de ayuntamientos se irá ampliando progresivamente.
+                    Si tu ayuntamiento no está incluido, puedes sugerirlo para añadirlo al sistema de monitorización.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Empleo Público Alicante</h5>
+                    <p class="mb-0">Información oficial de todas las administraciones públicas</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">
+                        <a href="/" class="text-light text-decoration-none">
+                            <i class="fas fa-arrow-left me-1"></i>Volver al inicio
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

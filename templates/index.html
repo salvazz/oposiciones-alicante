@@ -3,75 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oposiciones Alicante - Auxiliar Administrativo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Empleo Público Alicante - Todas las Administraciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --info-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .header-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .hero-section {
+            background: var(--primary-gradient);
             color: white;
-            padding: 2rem 0;
+            padding: 3rem 0;
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
-        .card {
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,60 0,100"/></svg>') no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
-        .card:hover {
-            transform: translateY(-2px);
+
+        .job-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: none;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
         }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .job-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-source-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .source-boe { background: var(--success-gradient); }
+        .source-dogv { background: var(--warning-gradient); }
+        .source-diputacion { background: var(--info-gradient); }
+        .source-ayuntamiento { background: var(--secondary-gradient); }
+        .source-ue { background: var(--dark-gradient); }
+
+        .job-content {
+            padding: 1.5rem;
+        }
+
+        .job-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
         .btn-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             border: none;
             border-radius: 25px;
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
+
         .btn-custom:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
         }
-        .badge-open {
-            background-color: #28a745;
+
+        .btn-outline-custom {
+            border: 2px solid #667eea;
+            color: #667eea;
+            background: transparent;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
         .search-container {
             position: relative;
             margin-bottom: 2rem;
         }
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
+
         .search-input {
-            padding-left: 45px;
-            border-radius: 25px;
+            padding-left: 3rem;
+            border-radius: 50px;
             border: 2px solid #e9ecef;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+
         .search-input:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1rem;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+
+            .job-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+        }
+
+        .notification-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
-    <div class="header-bg">
+    <!-- Notification Banner -->
+    <div class="notification-banner animate__animated animate__fadeInDown" id="notificationBanner">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1><i class="fas fa-file-alt me-2"></i>Oposiciones Alicante</h1>
-                    <p class="mb-0">Plazas de Auxiliar Administrativo en la provincia de Alicante</p>
+                    <i class="fas fa-bell me-2"></i>
+                    <strong>¡Nuevas ofertas disponibles!</strong> Se han encontrado nuevas oportunidades de empleo público.
                 </div>
                 <div class="col-md-4 text-end">
-                    <div class="mt-3">
-                        <span class="badge bg-light text-dark fs-6">
-                            <i class="fas fa-clock me-1"></i>{{ total }} plazas activas
-                        </span>
+                    <button class="btn btn-light btn-sm" onclick="hideNotification()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInLeft">
+                        <i class="fas fa-briefcase me-3"></i>Empleo Público Alicante
+                    </h1>
+                    <p class="lead mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
+                        Todas las ofertas de trabajo público en la provincia de Alicante:
+                        oposiciones, concursos y empleos de todas las administraciones
+                    </p>
+                    <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                        <a href="#jobs" class="btn btn-light btn-lg me-3 mb-2">
+                            <i class="fas fa-search me-2"></i>Ver Ofertas
+                        </a>
+                        <a href="/sources" class="btn btn-outline-light btn-lg mb-2">
+                            <i class="fas fa-info-circle me-2"></i>Fuentes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="stats-card animate__animated animate__fadeInRight">
+                        <div class="text-center">
+                            <h2 class="text-primary mb-2">{{ total }}</h2>
+                            <p class="mb-0 text-muted">Ofertas activas encontradas</p>
+                            <small class="text-muted">Actualizado en tiempo real</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,95 +322,218 @@
     </div>
 
     <div class="container">
-        <div class="search-container">
+        <!-- Search and Filters -->
+        <div class="search-container animate__animated animate__fadeInUp">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="searchInput" class="form-control form-control-lg search-input"
-                   placeholder="Buscar por título, organismo...">
+                   placeholder="Buscar por título, organismo, tipo...">
         </div>
 
-        <div class="row" id="oposicionesContainer">
-            {% for oposicion in oposiciones %}
-            <div class="col-md-6 col-lg-4 mb-4 oposicion-card">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <span class="badge badge-open">
-                                <i class="fas fa-check-circle me-1"></i>Plazo abierto
-                            </span>
-                            <small class="text-muted">{{ oposicion.fecha_publicacion }}</small>
-                        </div>
-                        <h5 class="card-title">{{ oposicion.titulo }}</h5>
-                        <p class="card-text text-muted small">
-                            <i class="fas fa-hashtag me-1"></i>{{ oposicion.identificador }}
-                        </p>
+        <div class="filter-buttons animate__animated animate__fadeInUp animate__delay-1s">
+            <button class="filter-btn active" data-filter="all">Todas las ofertas</button>
+            <button class="filter-btn" data-filter="boe">Estado Español</button>
+            <button class="filter-btn" data-filter="dogv">Generalitat Valenciana</button>
+            <button class="filter-btn" data-filter="diputacion">Diputación Alicante</button>
+            <button class="filter-btn" data-filter="ayuntamiento">Ayuntamientos</button>
+            <button class="filter-btn" data-filter="ue">Unión Europea</button>
+        </div>
+
+        <!-- Jobs Container -->
+        <div class="row" id="jobsContainer">
+            {% for job in jobs %}
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-4 job-card animate__animated animate__fadeInUp"
+                 data-source="{{ job.fuente.lower().replace(' ', '-').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u') }}"
+                 data-category="{{ job.categoria.lower().replace(' ', '-') }}">
+                <div class="job-header">
+                    <div>
+                        <h6 class="mb-0">
+                            <i class="fas fa-building me-2"></i>{{ job.fuente }}
+                        </h6>
+                        <small class="opacity-75">{{ job.categoria }}</small>
                     </div>
-                    <div class="card-footer bg-transparent border-0">
-                        <div class="d-grid gap-2">
-                            {% if oposicion.url_html %}
-                            <a href="{{ oposicion.url_html }}" target="_blank" class="btn btn-custom btn-sm">
-                                <i class="fas fa-external-link-alt me-1"></i>Ver en BOE
-                            </a>
-                            {% endif %}
-                            {% if oposicion.url_pdf %}
-                            <a href="{{ oposicion.url_pdf }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-file-pdf me-1"></i>PDF oficial
-                            </a>
-                            {% endif %}
+                    <span class="job-source-badge source-{{ job.fuente.lower().split()[0] }}">
+                        {{ job.tipo }}
+                    </span>
+                </div>
+                <div class="job-content">
+                    <h5 class="job-title">{{ job.titulo }}</h5>
+
+                    <div class="job-meta">
+                        <div class="job-meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ job.fecha_publicacion }}</span>
                         </div>
+                        <div class="job-meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span>{{ job.categoria }}</span>
+                        </div>
+                        {% if job.plazo_abierto %}
+                        <div class="job-meta-item">
+                            <i class="fas fa-clock text-success"></i>
+                            <span class="text-success fw-bold">Plazo abierto</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        {% if job.url_html %}
+                        <a href="{{ job.url_html }}" target="_blank" class="btn-custom">
+                            <i class="fas fa-external-link-alt me-1"></i>Ver oferta
+                        </a>
+                        {% endif %}
+                        {% if job.url_pdf %}
+                        <a href="{{ job.url_pdf }}" target="_blank" class="btn-outline-custom">
+                            <i class="fas fa-file-pdf me-1"></i>PDF
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        {% if not oposiciones %}
-        <div class="text-center py-5">
-            <i class="fas fa-search fa-3x text-muted mb-3"></i>
-            <h4 class="text-muted">No se encontraron oposiciones activas</h4>
-            <p class="text-muted">No hay plazas de auxiliar administrativo con plazo abierto en estos momentos.</p>
+        {% if not jobs %}
+        <div class="empty-state animate__animated animate__fadeIn">
+            <div class="empty-state-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h4>No se encontraron ofertas activas</h4>
+            <p class="text-muted">
+                No hay ofertas de empleo público con plazo abierto en estos momentos.<br>
+                La página se actualiza automáticamente cuando se publiquen nuevas convocatorias.
+            </p>
         </div>
         {% endif %}
 
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-info-circle me-2"></i>Información importante</h5>
-                        <ul class="mb-0">
-                            <li>Esta página muestra únicamente las plazas de <strong>Auxiliar Administrativo</strong> en la provincia de Alicante</li>
-                            <li>Solo se muestran convocatorias con <strong>plazo de presentación abierto</strong></li>
-                            <li>Los datos se actualizan diariamente desde el Boletín Oficial del Estado (BOE)</li>
-                            <li>Verifica siempre la información oficial en los enlaces proporcionados</li>
-                        </ul>
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4 class="text-primary mb-3">
+                        <i class="fas fa-info-circle me-2"></i>¿Qué incluye esta página?
+                    </h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Estado Español:</strong> BOE (Boletín Oficial del Estado)</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Generalitat Valenciana:</strong> DOGV (Diario Oficial)</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Diputación de Alicante:</strong> Ofertas provinciales</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Ayuntamientos:</strong> 10 principales municipios</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Unión Europea:</strong> EPSO y EUR-Lex</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="text-primary mb-3">
+                        <i class="fas fa-bell me-2"></i>Notificaciones automáticas
+                    </h4>
+                    <p class="mb-3">
+                        Recibe alertas por email cuando se publiquen nuevas ofertas de empleo público
+                        en la provincia de Alicante.
+                    </p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-envelope me-2"></i>
+                        <strong>Emails configurados:</strong><br>
+                        salvazz@gmail.com<br>
+                        lucasaliagadelaencarnacion@gmail.com
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Empleo Público Alicante</h5>
+                    <p class="mb-0">Información oficial de todas las administraciones públicas</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-1">
+                        <a href="/about" class="text-light text-decoration-none">
+                            <i class="fas fa-info-circle me-1"></i>Acerca de
+                        </a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="/sources" class="text-light text-decoration-none">
+                            <i class="fas fa-database me-1"></i>Fuentes de datos
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center">
+                <small class="text-muted">
+                    Información proporcionada únicamente con fines informativos.
+                    Verifica siempre las fuentes oficiales.
+                </small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Search functionality
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
-            const cards = document.querySelectorAll('.oposicion-card');
+            const cards = document.querySelectorAll('.job-card');
 
             cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const identifier = card.querySelector('.card-text').textContent.toLowerCase();
+                const title = card.querySelector('.job-title').textContent.toLowerCase();
+                const source = card.querySelector('.job-header h6').textContent.toLowerCase();
+                const category = card.querySelector('.job-header small').textContent.toLowerCase();
 
-                if (title.includes(searchTerm) || identifier.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                const matches = title.includes(searchTerm) ||
+                               source.includes(searchTerm) ||
+                               category.includes(searchTerm);
+
+                card.style.display = matches ? 'block' : 'none';
             });
         });
 
-        // Auto-refresh every 5 minutes
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+                const cards = document.querySelectorAll('.job-card');
+
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        const cardSource = card.getAttribute('data-source');
+                        const matches = cardSource && cardSource.includes(filter.toLowerCase());
+                        card.style.display = matches ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Notification banner
+        function hideNotification() {
+            document.getElementById('notificationBanner').style.display = 'none';
+        }
+
+        // Auto-refresh every 10 minutes
         setTimeout(() => {
             window.location.reload();
-        }, 300000);
+        }, 600000);
+
+        // Check for new jobs (simulate)
+        function checkForNewJobs() {
+            // This would normally check an API endpoint
+            // For now, we'll just show the banner occasionally
+            if (Math.random() < 0.1) { // 10% chance
+                document.getElementById('notificationBanner').style.display = 'block';
+            }
+        }
+
+        // Check for new jobs every 30 seconds
+        setInterval(checkForNewJobs, 30000);
     </script>
 </body>
 </html>

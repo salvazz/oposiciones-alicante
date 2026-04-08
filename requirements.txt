@@ -7,3 +7,4 @@ pytest
 bleach
 PyYAML
 flask
+python-dotenv
