@@ -309,22 +309,22 @@ def extract_jobs_from_boe(data, date_str, fuente):
                                     if isinstance(item, dict):
                                         titulo = item.get('titulo', '').lower()
 
-                                        # Filter for Alicante and public jobs (administration and communication)
-                                        alicante_found = ('alicante' in titulo or 'alacant' in titulo)
-                                        admin_communication_found = (
-                                            'auxiliar' in titulo or 'administrativo' in titulo or
-                                            'funcionario' in titulo or 'oposicion' in titulo or
-                                            'tecnico superior comunicacion' in titulo or 'tecnico comunicacion' in titulo or
-                                            'periodista' in titulo or 'redactor gabinete prensa' in titulo or 'redactor prensa' in titulo or
-                                            'coordinador comunicacion' in titulo or 'coordinadora comunicacion' in titulo or
-                                            'community manager' in titulo or 'responsable redes sociales' in titulo or
-                                            'analista medios' in titulo or 'analista comunicacion' in titulo or
-                                            'asesor prensa' in titulo or 'asesor comunicacion' in titulo or
-                                            'gestion crisis' in titulo or 'produccion contenidos' in titulo or
-                                            'relaciones informativas' in titulo or 'comunicacion institucional' in titulo
-                                        )
+                                # Filter for Alicante and public jobs (administration and communication)
+                                alicante_found = ('alicante' in titulo or 'alacant' in titulo)
+                                admin_communication_found = (
+                                    'auxiliar' in titulo or 'administrativo' in titulo or
+                                    'funcionario' in titulo or 'oposicion' in titulo or
+                                    'tecnico superior comunicacion' in titulo or 'tecnico comunicacion' in titulo or
+                                    'periodista' in titulo or 'redactor gabinete prensa' in titulo or 'redactor prensa' in titulo or
+                                    'coordinador comunicacion' in titulo or 'coordinadora comunicacion' in titulo or
+                                    'community manager' in titulo or 'responsable redes sociales' in titulo or
+                                    'analista medios' in titulo or 'analista comunicacion' in titulo or
+                                    'asesor prensa' in titulo or 'asesor comunicacion' in titulo or
+                                    'gestion crisis' in titulo or 'produccion contenidos' in titulo or
+                                    'relaciones informativas' in titulo or 'comunicacion institucional' in titulo
+                                )
 
-                                        if alicante_found and admin_communication_found:
+                                if alicante_found and admin_communication_found:
 
                                              # Determinar categoría basada en el contenido
                                              categoria = 'Administración del Estado'

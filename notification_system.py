@@ -63,62 +63,242 @@ class JobNotificationSystem:
         self.save_sent_notifications()
 
     def create_notification_email(self, new_jobs):
-        """Crear el contenido del email de notificación"""
-        subject = "🔔 Nuevas ofertas de empleo público en Alicante"
+        """Crear el contenido del email de notificación con bases completas"""
+        subject = "🔔 Nuevas ofertas de empleo público en Alicante - {}".format(len(new_jobs))
 
-        # Crear mensaje HTML
+        # Crear mensaje HTML con diseño mejorado
         html_content = """
         <html>
         <head>
+            <meta charset="UTF-8">
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
-                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                         color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-                .job-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px;
-                           margin-bottom: 15px; background: #f9f9f9; }
-                .job-title { font-weight: bold; color: #333; margin-bottom: 8px; }
-                .job-meta { color: #666; font-size: 14px; margin-bottom: 8px; }
-                .job-link { display: inline-block; background: #28a745; color: white;
-                           padding: 8px 15px; text-decoration: none; border-radius: 5px; }
-                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;
-                         color: #666; font-size: 12px; }
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                }
+                .container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: white;
+                    border-radius: 15px;
+                    overflow: hidden;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }
+                .header {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 30px;
+                    text-align: center;
+                }
+                .header h2 {
+                    margin: 0;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+                .header p {
+                    margin: 10px 0 0 0;
+                    opacity: 0.9;
+                }
+                .job-card {
+                    margin: 20px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                    padding: 20px;
+                    border-left: 4px solid #667eea;
+                    margin-bottom: 20px;
+                }
+                .job-title {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #2c3e50;
+                    margin-bottom: 15px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .job-meta {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 10px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                }
+                .meta-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #6c757d;
+                }
+                .meta-item strong {
+                    color: #495057;
+                }
+                .bases-section {
+                    background: white;
+                    border: 1px solid #e9ecef;
+                    border-radius: 8px;
+                    padding: 15px;
+                    margin: 15px 0;
+                    font-family: 'Courier New', monospace;
+                    font-size: 13px;
+                    line-height: 1.4;
+                    white-space: pre-wrap;
+                    max-height: 300px;
+                    overflow-y: auto;
+                }
+                .bases-title {
+                    font-weight: 600;
+                    color: #495057;
+                    margin-bottom: 10px;
+                    font-family: 'Segoe UI', sans-serif;
+                }
+                .job-links {
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                    margin-top: 15px;
+                }
+                .job-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 5px;
+                    background: #28a745;
+                    color: white;
+                    padding: 10px 15px;
+                    text-decoration: none;
+                    border-radius: 25px;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                }
+                .job-link:hover {
+                    background: #218838;
+                    transform: translateY(-1px);
+                }
+                .job-link-secondary {
+                    background: #6c757d;
+                }
+                .job-link-secondary:hover {
+                    background: #5a6268;
+                }
+                .category-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                .category-administracion { background: #d4edda; color: #155724; }
+                .category-comunicacion { background: #cce5ff; color: #004085; }
+                .footer {
+                    background: #f8f9fa;
+                    padding: 20px;
+                    text-align: center;
+                    border-top: 1px solid #e9ecef;
+                    color: #6c757d;
+                    font-size: 14px;
+                }
+                .footer a {
+                    color: #667eea;
+                    text-decoration: none;
+                    font-weight: 500;
+                }
+                .footer a:hover {
+                    text-decoration: underline;
+                }
+                @media (max-width: 768px) {
+                    .container { margin: 10px; }
+                    .header { padding: 20px; }
+                    .job-meta { grid-template-columns: 1fr; }
+                    .job-links { flex-direction: column; }
+                }
             </style>
         </head>
         <body>
-            <div class="header">
-                <h2>🔔 Nuevas Ofertas de Empleo Público</h2>
-                <p>Se han encontrado <strong>{}</strong> nuevas ofertas en la provincia de Alicante</p>
-            </div>
+            <div class="container">
+                <div class="header">
+                    <h2>🔔 Nuevas Ofertas de Empleo Público</h2>
+                    <p>Se han encontrado <strong>{}</strong> nuevas ofertas en la provincia de Alicante</p>
+                </div>
         """.format(len(new_jobs))
 
         for job in new_jobs:
+            category_class = "category-administracion" if job.get('categoria') == 'Administración' else "category-comunicacion"
+            category_icon = "📄" if job.get('categoria') == 'Administración' else "📢"
+
             html_content += """
-            <div class="job-card">
-                <div class="job-title">📋 {}</div>
-                <div class="job-meta">
-                    <strong>Fuente:</strong> {}<br>
-                    <strong>Categoría:</strong> {}<br>
-                    <strong>Fecha:</strong> {}<br>
-                    <strong>Tipo:</strong> {}
-                </div>
-                <a href="{}" class="job-link">Ver oferta completa →</a>
-            </div>
+                <div class="job-card">
+                    <div class="job-title">
+                        {} {}
+                        <span class="category-badge {}">{}</span>
+                    </div>
+
+                    <div class="job-meta">
+                        <div class="meta-item">
+                            <strong>🏛️ Fuente:</strong> {}
+                        </div>
+                        <div class="meta-item">
+                            <strong>📅 Fecha:</strong> {}
+                        </div>
+                        <div class="meta-item">
+                            <strong>🏷️ Tipo:</strong> {}
+                        </div>
+                        <div class="meta-item">
+                            <strong>⏰ Estado:</strong> Plazo {}
+                        </div>
+                    </div>
             """.format(
+                category_icon,
                 job['titulo'],
+                category_class,
+                job.get('categoria', 'General'),
                 job['fuente'],
-                job['categoria'],
                 job['fecha_publicacion'],
                 job['tipo'],
-                job['url_html']
+                'abierto' if job.get('plazo_abierto', False) else 'cerrado'
             )
 
+            # Añadir bases de convocatoria si están disponibles
+            if job.get('bases'):
+                html_content += """
+                    <div class="bases-section">
+                        <div class="bases-title">📋 BASES DE LA CONVOCATORIA</div>
+                        {}
+                    </div>
+                """.format(job['bases'][:2000] + ('...' if len(job.get('bases', '')) > 2000 else ''))
+
+            # Enlaces
+            html_content += """<div class="job-links">"""
+
+            if job.get('url_html'):
+                html_content += """
+                    <a href="{}" class="job-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ver convocatoria completa
+                    </a>
+                """.format(job['url_html'])
+
+            if job.get('url_pdf'):
+                html_content += """
+                    <a href="{}" class="job-link job-link-secondary">
+                        <i class="fas fa-file-pdf"></i>
+                        Descargar PDF oficial
+                    </a>
+                """.format(job['url_pdf'])
+
+            html_content += """</div></div>"""
+
         html_content += """
-            <div class="footer">
-                <p>
-                    Este email fue enviado automáticamente por el sistema de notificaciones
-                    de Oposiciones Alicante.<br>
-                    <a href="https://oposiciones-alicante.vercel.app">Visitar la web completa</a>
-                </p>
+                <div class="footer">
+                    <p>
+                        <strong>Empleo Público Alicante</strong><br>
+                        Este email fue enviado automáticamente por el sistema de notificaciones.<br>
+                        <a href="https://oposiciones-alicante.vercel.app">Visitar la web completa</a> |
+                        <a href="https://oposiciones-alicante.vercel.app/comunicacion">Ver ofertas de comunicación</a>
+                    </p>
+                </div>
             </div>
         </body>
         </html>

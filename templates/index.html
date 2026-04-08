@@ -17,9 +17,79 @@
             --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
         }
 
+        :root {
+            --bg-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --bg-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --card-light: white;
+            --card-dark: #34495e;
+            --text-light: #2c3e50;
+            --text-dark: #ecf0f1;
+            --border-light: #e9ecef;
+            --border-dark: #495057;
+        }
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-light);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .job-card {
+            background: var(--card-dark);
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .dark-mode .search-input,
+        .dark-mode .filter-btn {
+            background: var(--card-dark);
+            color: var(--text-dark);
+            border-color: var(--border-dark);
+        }
+
+        .dark-mode .search-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .theme-toggle {
+            background: rgba(52, 73, 94, 0.9);
+            color: #ecf0f1;
+        }
+
+        .custom-municipality {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .custom-municipality {
+            background: var(--card-dark);
+            color: var(--text-dark);
         }
 
         .hero-section {
@@ -327,12 +397,67 @@
         </div>
     </div>
 
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <div class="container">
+        <!-- Custom Municipality Search -->
+        <div class="custom-municipality animate__animated animate__fadeInUp">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-3">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        Búsqueda por Ayuntamiento Específico
+                    </h5>
+                    <div class="input-group">
+                        <input type="text" id="municipalityInput" class="form-control form-control-lg"
+                               placeholder="Ej: Elche, Torrevieja, Orihuela, Villena..."
+                               list="municipios-list">
+                        <button class="btn btn-primary" id="addMunicipalityBtn">
+                            <i class="fas fa-plus me-1"></i>Añadir Ayuntamiento
+                        </button>
+                        <datalist id="municipios-list">
+                            <option value="Alicante/Alacant">
+                            <option value="Elche/Elx">
+                            <option value="Torrevieja">
+                            <option value="Orihuela">
+                            <option value="Benidorm">
+                            <option value="Alcoy/Alcoi">
+                            <option value="Villena">
+                            <option value="Elda">
+                            <option value="San Vicente del Raspeig">
+                            <option value="Aspe">
+                            <option value="Denia">
+                            <option value="Jávea/Xàbia">
+                            <option value="Calpe">
+                            <option value="Moraira">
+                            <option value="Pilar de la Horadada">
+                            <option value="Rojales">
+                        </datalist>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-info mb-0">
+                        <small>
+                            <i class="fas fa-info-circle me-1"></i>
+                            Añade ayuntamientos específicos para buscar ofertas solo en esos municipios.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div id="selectedMunicipalities" class="mt-3" style="display: none;">
+                <strong>Ayuntamientos seleccionados:</strong>
+                <div class="d-flex flex-wrap gap-2 mt-2" id="municipalityTags"></div>
+            </div>
+        </div>
+
         <!-- Search and Filters -->
         <div class="search-container animate__animated animate__fadeInUp">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="searchInput" class="form-control form-control-lg search-input"
-                   placeholder="Buscar por título, organismo, tipo...">
+                   placeholder="Buscar por título, organismo...">
         </div>
 
         <div class="filter-buttons animate__animated animate__fadeInUp animate__delay-1s">
@@ -541,22 +666,184 @@
             document.getElementById('notificationBanner').style.display = 'none';
         }
 
-        // Auto-refresh every 10 minutes
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Custom municipality search
+        let selectedMunicipalities = JSON.parse(localStorage.getItem('selectedMunicipalities') || '[]');
+        const municipalityInput = document.getElementById('municipalityInput');
+        const addMunicipalityBtn = document.getElementById('addMunicipalityBtn');
+        const selectedMunicipalitiesDiv = document.getElementById('selectedMunicipalities');
+        const municipalityTags = document.getElementById('municipalityTags');
+
+        function updateMunicipalityDisplay() {
+            if (selectedMunicipalities.length > 0) {
+                selectedMunicipalitiesDiv.style.display = 'block';
+                municipalityTags.innerHTML = selectedMunicipalities.map(municipio => `
+                    <span class="badge bg-primary p-2">
+                        ${municipio}
+                        <button class="btn btn-sm btn-outline-light ms-1 p-0 border-0"
+                                onclick="removeMunicipality('${municipio}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </span>
+                `).join('');
+            } else {
+                selectedMunicipalitiesDiv.style.display = 'none';
+            }
+            localStorage.setItem('selectedMunicipalities', JSON.stringify(selectedMunicipalities));
+        }
+
+        function removeMunicipality(municipio) {
+            selectedMunicipalities = selectedMunicipalities.filter(m => m !== municipio);
+            updateMunicipalityDisplay();
+        }
+
+        addMunicipalityBtn.addEventListener('click', () => {
+            const municipio = municipalityInput.value.trim();
+            if (municipio && !selectedMunicipalities.includes(municipio)) {
+                selectedMunicipalities.push(municipio);
+                updateMunicipalityDisplay();
+                municipalityInput.value = '';
+            }
+        });
+
+        municipalityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addMunicipalityBtn.click();
+            }
+        });
+
+        // Update search to include custom municipalities
+        const originalSearchFunction = function() {
+            const searchTerm = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.job-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.job-title').textContent.toLowerCase();
+                const source = card.querySelector('.job-header h6').textContent.toLowerCase();
+                const category = card.querySelector('.job-header small').textContent.toLowerCase();
+
+                let matches = title.includes(searchTerm) ||
+                             source.includes(searchTerm) ||
+                             category.includes(searchTerm);
+
+                // Also check custom municipalities
+                if (selectedMunicipalities.length > 0) {
+                    const municipalityMatch = selectedMunicipalities.some(municipio =>
+                        source.includes(municipio.toLowerCase())
+                    );
+                    matches = matches && municipalityMatch;
+                }
+
+                card.style.display = matches ? 'block' : 'none';
+            });
+        };
+
+        // Apply custom municipality filter to search
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.job-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.job-title').textContent.toLowerCase();
+                const source = card.querySelector('.job-header h6').textContent.toLowerCase();
+                const category = card.querySelector('.job-header small').textContent.toLowerCase();
+
+                let matches = title.includes(searchTerm) ||
+                             source.includes(searchTerm) ||
+                             category.includes(searchTerm);
+
+                // Also check custom municipalities
+                if (selectedMunicipalities.length > 0) {
+                    const municipalityMatch = selectedMunicipalities.some(municipio =>
+                        source.includes(municipio.toLowerCase())
+                    );
+                    matches = matches && municipalityMatch;
+                }
+
+                card.style.display = matches ? 'block' : 'none';
+            });
+        });
+
+        // Initialize municipality display
+        updateMunicipalityDisplay();
+
+        // Enhanced filter functionality with custom municipalities
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+                const cards = document.querySelectorAll('.job-card');
+
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else if (filter === 'administracion' || filter === 'comunicacion') {
+                        // Filter by category
+                        const cardCategory = card.getAttribute('data-category');
+                        const matches = cardCategory && cardCategory.includes(filter.toLowerCase());
+                        card.style.display = matches ? 'block' : 'none';
+                    } else {
+                        // Filter by source
+                        const cardSource = card.getAttribute('data-source');
+                        const matches = cardSource && cardSource.includes(filter.toLowerCase());
+                        card.style.display = matches ? 'block' : 'none';
+                    }
+                });
+
+                // Apply custom municipality filter after main filter
+                if (selectedMunicipalities.length > 0) {
+                    cards.forEach(card => {
+                        if (card.style.display !== 'none') {
+                            const source = card.querySelector('.job-header h6').textContent.toLowerCase();
+                            const municipalityMatch = selectedMunicipalities.some(municipio =>
+                                source.includes(municipio.toLowerCase())
+                            );
+                            if (!municipalityMatch) {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Auto-refresh every 15 minutes (increased from 10)
         setTimeout(() => {
             window.location.reload();
-        }, 600000);
+        }, 900000);
 
         // Check for new jobs (simulate)
         function checkForNewJobs() {
             // This would normally check an API endpoint
             // For now, we'll just show the banner occasionally
-            if (Math.random() < 0.1) { // 10% chance
+            if (Math.random() < 0.05) { // 5% chance, reduced frequency
                 document.getElementById('notificationBanner').style.display = 'block';
             }
         }
 
-        // Check for new jobs every 30 seconds
-        setInterval(checkForNewJobs, 30000);
+        // Check for new jobs every 60 seconds (reduced frequency)
+        setInterval(checkForNewJobs, 60000);
     </script>
 </body>
 </html>
