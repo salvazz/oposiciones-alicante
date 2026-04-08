@@ -31,7 +31,7 @@ def home():
         )]
 
         # Verificar y enviar notificaciones de jobs nuevos
-        notification_system.check_and_notify_new_jobs(filtered_jobs)
+        check_and_notify_jobs({'jobs': filtered_jobs})
 
         return render_template('index.html', jobs=filtered_jobs, total=len(filtered_jobs))
     except Exception as e:
@@ -53,6 +53,30 @@ def get_oposiciones_api():
     """Legacy API endpoint for backward compatibility"""
     data = get_all_jobs_data()
     return jsonify(data)
+
+@app.route('/comunicacion')
+def comunicacion():
+    """Communication jobs page"""
+    try:
+        data = get_all_jobs_data()
+
+        # Filter for communication jobs only
+        communication_jobs = [job for job in data['jobs'] if
+                            'comunicacion' in job.get('categoria', '').lower() or
+                            'comunicacion' in job.get('titulo', '').lower() or
+                            'periodista' in job.get('titulo', '').lower() or
+                            'prensa' in job.get('titulo', '').lower() or
+                            'community manager' in job.get('titulo', '').lower()]
+
+        return render_template('comunicacion.html', jobs=communication_jobs, total=len(communication_jobs))
+    except Exception as e:
+        logger.error(f"Error loading communication page: {e}")
+        return render_template('comunicacion.html', jobs=[], total=0, error="Error loading communication jobs")
+
+@app.route('/sources')
+def sources():
+    """Sources information page"""
+    return render_template('sources.html')
 
 @app.route('/about')
 def about():

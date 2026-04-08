@@ -29,11 +29,14 @@ class JobNotificationSystem:
 
         # Use config if provided
         if config:
-            self.smtp_server = config.SMTP_SERVER
-            self.smtp_port = config.SMTP_PORT
-            self.sender_email = config.SENDER_EMAIL
-            self.sender_password = config.SENDER_PASSWORD
-            self.recipient_emails = config.RECIPIENT_EMAILS
+            self.smtp_server = config.get('SMTP_SERVER', self.smtp_server)
+            self.smtp_port = config.get('SMTP_PORT', self.smtp_port)
+            self.sender_email = config.get('SENDER_EMAIL', self.sender_email)
+            self.sender_password = config.get('SENDER_PASSWORD', self.sender_password)
+            # Handle recipients from config
+            config_recipients = config.get('RECIPIENT_EMAILS')
+            if config_recipients:
+                self.recipient_emails = config_recipients
 
         # Archivo para tracking de notificaciones enviadas
         self.tracking_file = 'sent_notifications.json'
