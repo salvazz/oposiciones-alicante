@@ -44,7 +44,7 @@ Aplicación web completa que muestra **todas las ofertas de empleo público** di
 
 **Alertas automáticas por email** cuando se publiquen nuevas ofertas:
 
-- 📬 **Destinatarios:** salvazz@gmail.com, lucasaliagadelaencarnacion@gmail.com
+- 📬 **Destinatarios:** Configurados automáticamente
 - 📬 **Contenido:** Email HTML con detalles completos de las nuevas ofertas
 - 📬 **Frecuencia:** Automática al detectar nuevas publicaciones
 - 📬 **Enlaces directos:** Acceso inmediato a las convocatorias oficiales
@@ -192,7 +192,7 @@ Para activar las notificaciones automáticas:
    SMTP_PORT=587
    SENDER_EMAIL=tu-email@gmail.com
    SENDER_PASSWORD=tu-app-password
-   RECIPIENT_EMAILS=salvazz@gmail.com,lucasaliagadelaencarnacion@gmail.com
+   RECIPIENT_EMAILS=tu-email@gmail.com,otro-email@gmail.com
    ```
 
 2. **Para Gmail:** Genera una "Contraseña de aplicación"
