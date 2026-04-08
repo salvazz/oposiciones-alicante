@@ -154,6 +154,7 @@ Devuelve todas las ofertas en formato JSON:
 ```
 
 ### Páginas Adicionales
+- `/comunicacion` - **NUEVO** - Puestos especializados en comunicación institucional
 - `/sources` - Información detallada de todas las fuentes
 - `/about` - Información del proyecto
 

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puestos de Comunicación - Empleo Público Alicante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --info-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --communication-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .hero-section {
+            background: var(--communication-gradient);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,60 0,100"/></svg>') no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .position-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: none;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .position-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .position-header {
+            background: var(--communication-gradient);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .position-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .position-content {
+            padding: 2rem;
+        }
+
+        .position-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .position-description {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .position-responsibilities {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .position-responsibilities h6 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .position-responsibilities ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .position-responsibilities li {
+            margin-bottom: 0.25rem;
+            color: #6c757d;
+        }
+
+        .position-badge {
+            display: inline-block;
+            background: var(--communication-gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .area-highlight {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn-custom {
+            background: var(--communication-gradient);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            color: white;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+
+            .position-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .position-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-bullhorn me-2"></i>Comunicación Pública
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/comunicacion">Comunicación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sources">Fuentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Acerca de</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3 animate__animated animate__fadeInLeft">
+                        <i class="fas fa-bullhorn me-3"></i>Puestos de Comunicación
+                    </h1>
+                    <p class="lead mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
+                        Oportunidades profesionales en comunicación institucional y pública
+                        en la provincia de Alicante
+                    </p>
+                    <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                        <a href="#positions" class="btn btn-light btn-lg me-3 mb-2">
+                            <i class="fas fa-list me-2"></i>Ver Puestos
+                        </a>
+                        <a href="/" class="btn btn-outline-light btn-lg mb-2">
+                            <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="stats-section animate__animated animate__fadeInRight">
+                        <div class="stat-number">8+</div>
+                        <div class="stat-label">Tipos de Puestos</div>
+                        <div class="mt-3">
+                            <span class="position-badge">Periodistas</span>
+                            <span class="position-badge">Com. Manager</span>
+                            <span class="position-badge">Asesores</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Áreas principales -->
+        <div class="area-highlight animate__animated animate__fadeInUp">
+            <h4 class="text-primary mb-3">
+                <i class="fas fa-star me-2"></i>Áreas Principales de Comunicación
+            </h4>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle text-warning me-3 fs-4"></i>
+                        <div>
+                            <strong>Gestión de Crisis</strong><br>
+                            <small class="text-muted">Manejo de información en situaciones críticas</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-newspaper text-info me-3 fs-4"></i>
+                        <div>
+                            <strong>Producción de Contenidos</strong><br>
+                            <small class="text-muted">Informes, publirreportajes y material informativo</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-users text-success me-3 fs-4"></i>
+                        <div>
+                            <strong>Relaciones Informativas</strong><br>
+                            <small class="text-muted">Suministro permanente de información a medios</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puestos de comunicación -->
+        <div id="positions" class="row">
+            <!-- Técnico Superior de Comunicación -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Técnico Superior de Comunicación</h5>
+                            <small>Funcionario especializado</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Diseño y ejecución de estrategias</h6>
+                        <p class="position-description">
+                            Profesional encargado de diseñar y ejecutar la estrategia de comunicación
+                            de la institución, coordinando todas las acciones de comunicación.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Elaboración de planes de comunicación</li>
+                                <li>Coordinación de campañas institucionales</li>
+                                <li>Gestión de la imagen corporativa</li>
+                                <li>Evaluación de impacto comunicativo</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Planificación</span>
+                            <span class="position-badge">Estrategia</span>
+                            <span class="position-badge">Coordinación</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Periodista/Redactor Gabinete de Prensa -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Periodista/Redactor</h5>
+                            <small>Gabinete de Prensa</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Comunicación institucional</h6>
+                        <p class="position-description">
+                            Responsable de redactar notas de prensa, gestionar entrevistas,
+                            atender a los medios y redactar discursos para la institución.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Redacción de notas de prensa</li>
+                                <li>Gestión de entrevistas y ruedas de prensa</li>
+                                <li>Atención permanente a medios</li>
+                                <li>Redacción de discursos oficiales</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Redacción</span>
+                            <span class="position-badge">Medios</span>
+                            <span class="position-badge">Prensa</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coordinador/a de área de comunicación -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Coordinador/a de Comunicación</h5>
+                            <small>Gestión departamental</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Gestión en ministerios y organismos</h6>
+                        <p class="position-description">
+                            Puesto de gestión en ministerios, fiscalías o departamentos gubernamentales
+                            encargado de coordinar todas las actividades de comunicación.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Coordinación de equipos de comunicación</li>
+                                <li>Supervisión de proyectos comunicativos</li>
+                                <li>Relación con gabinetes ministeriales</li>
+                                <li>Gestión de presupuestos de comunicación</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Gestión</span>
+                            <span class="position-badge">Coordinación</span>
+                            <span class="position-badge">Ministerial</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Manager -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-hashtag"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Community Manager</h5>
+                            <small>Redes Sociales</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Gestión de canales digitales</h6>
+                        <p class="position-description">
+                            Gestión de los canales digitales de la institución, incluyendo redes sociales,
+                            websites institucionales y presencia online.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Gestión de perfiles en redes sociales</li>
+                                <li>Creación y publicación de contenidos</li>
+                                <li>Interacción con seguidores</li>
+                                <li>Análisis de métricas y engagement</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Redes Sociales</span>
+                            <span class="position-badge">Digital</span>
+                            <span class="position-badge">Contenidos</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Periodista en medios públicos -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Periodista en Medios Públicos</h5>
+                            <small>RTVE y autonómicos</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Reportero, editor o presentador</h6>
+                        <p class="position-description">
+                            Profesional del periodismo en medios de comunicación públicos como RTVE,
+                            TV3, Canal Sur o medios autonómicos y locales.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Reportajes e investigación periodística</li>
+                                <li>Edición de contenidos informativos</li>
+                                <li>Presentación de programas</li>
+                                <li>Cobertura de eventos institucionales</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Periodismo</span>
+                            <span class="position-badge">Público</span>
+                            <span class="position-badge">Medios</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analista de Medios -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Analista de Medios</h5>
+                            <small>Monitorización y análisis</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Especialista en presencia mediática</h6>
+                        <p class="position-description">
+                            Analista especializado en monitorear la presencia de la institución
+                            en prensa y redes sociales, elaborando informes de impacto.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Monitorización de medios de comunicación</li>
+                                <li>Análisis de presencia en redes sociales</li>
+                                <li>Elaboración de informes de impacto</li>
+                                <li>Detección de tendencias mediáticas</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Análisis</span>
+                            <span class="position-badge">Medios</span>
+                            <span class="position-badge">Monitorización</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asesor de Comunicación -->
+            <div class="col-lg-6 col-xl-4">
+                <div class="position-card animate__animated animate__fadeInUp">
+                    <div class="position-header">
+                        <div class="position-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Asesor de Comunicación</h5>
+                            <small>Gabinetes ministeriales</small>
+                        </div>
+                    </div>
+                    <div class="position-content">
+                        <h6 class="position-title">Vinculado a altos cargos</h6>
+                        <p class="position-description">
+                            Profesional vinculado a gabinetes de ministros, secretarios de Estado
+                            o alcaldes, asesorando en estrategias de comunicación política.
+                        </p>
+                        <div class="position-responsibilities">
+                            <h6><i class="fas fa-tasks me-2"></i>Responsabilidades principales:</h6>
+                            <ul>
+                                <li>Asesoramiento estratégico en comunicación</li>
+                                <li>Gestión de crisis comunicativas</li>
+                                <li>Relación con medios especializados</li>
+                                <li>Preparación de intervenciones públicas</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <span class="position-badge">Asesoría</span>
+                            <span class="position-badge">Política</span>
+                            <span class="position-badge">Estrategia</span>
+                        </div>
+                        <a href="/" class="btn-custom">
+                            <i class="fas fa-search me-1"></i>Buscar ofertas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="text-center mt-5">
+            <div class="position-card">
+                <div class="position-content text-center">
+                    <h4 class="text-primary mb-3">
+                        <i class="fas fa-bell me-2"></i>¿Quieres recibir alertas?
+                    </h4>
+                    <p class="mb-4">
+                        Activa las notificaciones automáticas por email y recibe alertas
+                        cuando se publiquen nuevas ofertas de comunicación en Alicante.
+                    </p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <a href="/" class="btn-custom btn-lg w-100">
+                                <i class="fas fa-search me-2"></i>Ver todas las ofertas
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted">
+                        <small>Emails configurados: salvazz@gmail.com, lucasaliagadelaencarnacion@gmail.com</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Empleo Público Alicante</h5>
+                    <p class="mb-0">Especialización en puestos de comunicación institucional</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">
+                        <a href="/" class="text-light text-decoration-none">
+                            <i class="fas fa-arrow-left me-1"></i>Volver al inicio
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
