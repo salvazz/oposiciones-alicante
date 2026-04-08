@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 # Constants
-BOE_API_URL = 'https://api.boe.es/v1/boe'
+BASE_BOE_API_URL = 'https://www.boe.es/datosabiertos/api'
 OUTPUT_JSON = 'job_opportunities.json'
 OUTPUT_CSV = 'job_opportunities.csv'
 OUTPUT_HTML = 'job_opportunities.html'
@@ -13,12 +13,38 @@ OUTPUT_HTML = 'job_opportunities.html'
 # Fetch job opportunities data from BOE API
 
 def fetch_job_opportunities():
-    response = requests.get(BOE_API_URL)
-    if response.status_code == 200:
-        return response.json()  # Return JSON data
-    else:
-        print('Error fetching data from BOE API')
-        return None
+    headers = {'Accept': 'application/json'}
+    # Try different endpoints to get oposiciones data
+    today = datetime.now().strftime('%Y%m%d')
+    endpoints = [
+        f"{BASE_BOE_API_URL}/legislacion-consolidada",
+        f"{BASE_BOE_API_URL}/boe/sumario/{today}"
+    ]
+    
+    for url in endpoints:
+        try:
+            if 'legislacion-consolidada' in url:
+                params = {
+                    'query': 'oposiciones Alicante',
+                    'limit': 50
+                }
+                response = requests.get(url, headers=headers, params=params, timeout=10)
+            else:
+                # For sumario endpoint
+                response = requests.get(url, headers=headers, timeout=10)
+                
+            if response.status_code == 200:
+                data = response.json()
+                # Check if we got meaningful data
+                if data.get('data'):
+                    print(f"Successfully fetched data from {url}")
+                    return data
+        except Exception as e:
+            print(f"Error fetching from {url}: {str(e)}")
+            continue
+    
+    print('Failed to fetch data from any BOE API endpoint')
+    return None
 
 # Validate URLs
 
@@ -34,9 +60,17 @@ def validate_link(link):
 def filter_by_date(opportunities, date):
     filtered_opportunities = []
     for opp in opportunities:
-        opp_date = datetime.strptime(opp['date'], '%Y-%m-%d')
-        if opp_date >= date:
-            filtered_opportunities.append(opp)
+        # Handle different date formats
+        date_str = opp.get('fecha_publicacion') or opp.get('fecha_disposicion') or opp.get('fecha_vigencia')
+        if date_str:
+            try:
+                # Convert YYYYMMDD to datetime object
+                opp_date = datetime.strptime(date_str, '%Y%m%d')
+                if opp_date >= date:
+                    filtered_opportunities.append(opp)
+            except ValueError:
+                # If date format is different, skip this item
+                continue
     return filtered_opportunities
 
 # Save data to JSON
