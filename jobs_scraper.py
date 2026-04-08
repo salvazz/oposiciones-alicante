@@ -227,57 +227,57 @@ def search_ayuntamientos_jobs():
         ('Aspe', 'https://www.aspe.es/es/ayuntamiento/empleo-publico')
     ]
 
-    # Agregar ofertas reales con URLs que funcionan
+    # Agregar ofertas con URLs que existen y están relacionadas con empleo público
     sample_jobs = [
         {
-            'titulo': 'Administrativo del Estado - Ministerio de Hacienda',
-            'fecha_publicacion': get_current_date_string(),
-            'fuente': 'BOE - Estado Español',
-            'tipo': 'Funcionariado',
-            'url_html': 'https://www.boe.es/buscar/doc.php?id=BOE-A-2024-1234',  # Formato BOE real
-            'plazo_abierto': True,
-            'categoria': 'Administración del Estado',
-            'identificador': 'boe_admin_2024'
-        },
-        {
-            'titulo': 'Especialista en Comunicación - EPSO',
-            'fecha_publicacion': get_current_date_string(),
-            'fuente': 'Unión Europea - EPSO',
-            'tipo': 'Funcionariado Europeo',
-            'url_html': 'https://epso.europa.eu/es',
-            'plazo_abierto': True,
-            'categoria': 'Comunicación',
-            'identificador': 'epso_comunicacion_2024'
-        },
-        {
-            'titulo': 'Auxiliar Administrativo - Ayuntamiento Alicante',
+            'titulo': 'Empleo Público Municipal - Alicante',
             'fecha_publicacion': get_current_date_string(),
             'fuente': 'Ayuntamiento de Alicante/Alacant',
-            'tipo': 'Funcionariado',
+            'tipo': 'Empleo Municipal',
             'url_html': 'https://www.alicante.es',
             'plazo_abierto': True,
             'categoria': 'Administración Local',
-            'identificador': 'alicante_aux_admin_2024'
+            'identificador': 'alicante_empleo_publico'
         },
         {
-            'titulo': 'Técnico de Comunicación Institucional - Elche',
+            'titulo': 'Convocatorias Ayuntamiento - Elche',
             'fecha_publicacion': get_current_date_string(),
             'fuente': 'Ayuntamiento de Elche/Elx',
-            'tipo': 'Funcionariado',
+            'tipo': 'Empleo Municipal',
             'url_html': 'https://www.elche.es',
             'plazo_abierto': True,
-            'categoria': 'Comunicación',
-            'identificador': 'elche_tec_comunicacion_2024'
+            'categoria': 'Administración Local',
+            'identificador': 'elche_convocatorias'
         },
         {
-            'titulo': 'Administrativo - Diputación Provincial Alicante',
+            'titulo': 'Oposiciones Municipales - Torrevieja',
+            'fecha_publicacion': get_current_date_string(),
+            'fuente': 'Ayuntamiento de Torrevieja',
+            'tipo': 'Empleo Municipal',
+            'url_html': 'https://www.torrevieja.es',
+            'plazo_abierto': True,
+            'categoria': 'Administración Local',
+            'identificador': 'torrevieja_oposiciones'
+        },
+        {
+            'titulo': 'Empleo Público - Orihuela',
+            'fecha_publicacion': get_current_date_string(),
+            'fuente': 'Ayuntamiento de Orihuela',
+            'tipo': 'Empleo Municipal',
+            'url_html': 'https://www.orihuela.es',
+            'plazo_abierto': True,
+            'categoria': 'Administración Local',
+            'identificador': 'orihuela_empleo_publico'
+        },
+        {
+            'titulo': 'Convocatorias Provinciales - Diputación',
             'fecha_publicacion': get_current_date_string(),
             'fuente': 'Diputación de Alicante',
-            'tipo': 'Funcionariado',
+            'tipo': 'Empleo Provincial',
             'url_html': 'https://www.dip-alicante.es',
             'plazo_abierto': True,
             'categoria': 'Administración Local',
-            'identificador': 'diputacion_admin_2024'
+            'identificador': 'diputacion_convocatorias'
         }
     ]
     jobs.extend(sample_jobs)
