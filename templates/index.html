@@ -214,6 +214,9 @@
             border-color: transparent;
         }
 
+        .category-administracion { background: var(--success-gradient); }
+        .category-comunicacion { background: var(--warning-gradient); }
+
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -336,6 +339,8 @@
             <button class="filter-btn" data-filter="diputacion">Diputación Alicante</button>
             <button class="filter-btn" data-filter="ayuntamiento">Ayuntamientos</button>
             <button class="filter-btn" data-filter="ue">Unión Europea</button>
+            <button class="filter-btn" data-filter="administracion">Administración</button>
+            <button class="filter-btn" data-filter="comunicacion">Comunicación</button>
         </div>
 
         <!-- Jobs Container -->
@@ -343,7 +348,7 @@
             {% for job in jobs %}
             <div class="col-xl-6 col-lg-6 col-md-12 mb-4 job-card animate__animated animate__fadeInUp"
                  data-source="{{ job.fuente.lower().replace(' ', '-').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u') }}"
-                 data-category="{{ job.categoria.lower().replace(' ', '-') }}">
+                 data-category="{{ job.categoria.lower().replace(' ', '-').replace('del estado', '').strip() }}">
                 <div class="job-header">
                     <div>
                         <h6 class="mb-0">
@@ -351,8 +356,14 @@
                         </h6>
                         <small class="opacity-75">{{ job.categoria }}</small>
                     </div>
-                    <span class="job-source-badge source-{{ job.fuente.lower().split()[0] }}">
-                        {{ job.tipo }}
+                    <span class="job-source-badge source-{{ job.fuente.lower().split()[0] }} category-{{ job.categoria.lower().replace(' ', '-').replace('del estado', '').strip() }}">
+                        {% if 'comunicacion' in job.categoria.lower() %}
+                            <i class="fas fa-bullhorn me-1"></i>{{ job.tipo }}
+                        {% elif 'administracion' in job.categoria.lower() %}
+                            <i class="fas fa-file-alt me-1"></i>{{ job.tipo }}
+                        {% else %}
+                            {{ job.tipo }}
+                        {% endif %}
                     </span>
                 </div>
                 <div class="job-content">
@@ -504,7 +515,13 @@
                 cards.forEach(card => {
                     if (filter === 'all') {
                         card.style.display = 'block';
+                    } else if (filter === 'administracion' || filter === 'comunicacion') {
+                        // Filter by category
+                        const cardCategory = card.getAttribute('data-category');
+                        const matches = cardCategory && cardCategory.includes(filter.toLowerCase());
+                        card.style.display = matches ? 'block' : 'none';
                     } else {
+                        // Filter by source
                         const cardSource = card.getAttribute('data-source');
                         const matches = cardSource && cardSource.includes(filter.toLowerCase());
                         card.style.display = matches ? 'block' : 'none';

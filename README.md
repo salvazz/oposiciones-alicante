@@ -8,6 +8,28 @@ Aplicación web completa que muestra **todas las ofertas de empleo público** di
 - 🏛️ **Ayuntamientos** - 10 municipios principales de Alicante
 - 🏛️ **Unión Europea** - EPSO y EUR-Lex
 
+## 🎯 Categorías de Empleo
+
+### 📋 **Administración**
+- Auxiliar Administrativo
+- Funcionarios administrativos
+- Técnicos administrativos
+- Oposiciones administrativas
+
+### 📢 **Comunicación**
+- **Técnico Superior de Comunicación** - Diseño y ejecución de estrategias de comunicación institucional
+- **Periodista/Redactor en Gabinete de Prensa** - Redacción de notas de prensa, gestión de entrevistas, atención a medios
+- **Coordinador/a de área de comunicación** - Gestión en ministerios, fiscalías o departamentos gubernamentales
+- **Community Manager / Responsable de Redes Sociales** - Gestión de canales digitales institucionales
+- **Periodista en medios públicos** - Reportero, editor o presentador en RTVE o medios autonómicos/locales
+- **Analista de Medios y Comunicación** - Monitoreo de presencia institucional en prensa y redes
+- **Asesor de Prensa / Asesor de Comunicación** - Vinculado a gabinetes de ministros, secretarios o alcaldes
+
+### 🎯 **Áreas Principales de Comunicación**
+- **Gestión de crisis** - Manejo de información en situaciones críticas
+- **Producción de contenidos** - Creación de informes, publirreportajes y material informativo
+- **Relaciones informativas** - Suministro permanente de información a medios
+
 ## 🚀 Características Principales
 
 - ✅ **5 fuentes oficiales** de empleo público monitorizadas
